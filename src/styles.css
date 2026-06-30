@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f6fbff;
+}
+
+::selection {
+  background: #4ea63a;
+  color: #07111f;
+}
+
+@layer utilities {
+  .surface-premium {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(246, 251, 255, 0.86)),
+      linear-gradient(180deg, rgba(78, 166, 58, 0.08), transparent 38%);
+    box-shadow: 0 24px 80px rgba(7, 17, 31, 0.10);
+  }
+
+  .surface-premium::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, transparent 18%, rgba(255, 255, 255, 0.62), transparent 38%);
+    opacity: 0;
+    transform: translateX(-80%);
+    transition: opacity 500ms ease, transform 900ms ease;
+  }
+
+  .surface-premium:hover::before {
+    opacity: 1;
+    transform: translateX(80%);
+  }
+
+  .dark-surface-premium {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
+      linear-gradient(180deg, rgba(78, 166, 58, 0.08), transparent 55%);
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.26);
+  }
+
+  .dark-surface-premium::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, transparent, rgba(78, 166, 58, 0.18), transparent);
+    opacity: 0;
+    transform: translateX(-90%);
+    transition: opacity 500ms ease, transform 950ms ease;
+  }
+
+  .dark-surface-premium:hover::after {
+    opacity: 1;
+    transform: translateX(90%);
+  }
+
+  .interactive-lift {
+    transition: transform 320ms ease, border-color 320ms ease, box-shadow 320ms ease, background-color 320ms ease, color 320ms ease;
+  }
+
+  .interactive-lift:hover {
+    transform: translateY(-6px);
+  }
+
+  .reveal-up {
+    animation: revealUp 720ms cubic-bezier(.2, .8, .2, 1) both;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .magnetic-button {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .magnetic-button::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+    transform: translateX(-120%);
+    transition: transform 700ms ease;
+  }
+
+  .magnetic-button:hover::before {
+    transform: translateX(120%);
+  }
+
+  .section-mesh {
+    background-image:
+      linear-gradient(rgba(7, 17, 31, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(7, 17, 31, 0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

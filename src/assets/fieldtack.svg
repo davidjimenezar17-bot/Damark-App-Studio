@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675">
+  <rect width="900" height="675" rx="36" fill="#07111f"/>
+  <path d="M0 455c128-55 202 41 332 5 139-38 166-159 319-117 83 23 138 75 249 43v289H0Z" fill="#0b1d33"/>
+  <rect x="86" y="78" width="270" height="520" rx="36" fill="#f6fbff"/>
+  <rect x="109" y="126" width="224" height="75" rx="16" fill="#20e3a2"/>
+  <rect x="122" y="229" width="198" height="34" rx="10" fill="#d8e6ef"/>
+  <rect x="122" y="285" width="140" height="34" rx="10" fill="#d8e6ef"/>
+  <rect x="122" y="350" width="198" height="116" rx="18" fill="#07111f"/>
+  <path d="M146 427c35-52 76-21 105-49 24-24 34-56 67-36v94H146Z" fill="#20e3a2"/>
+  <rect x="430" y="114" width="350" height="70" rx="16" fill="#20e3a2"/>
+  <rect x="430" y="220" width="260" height="30" rx="10" fill="#5ad7ff"/>
+  <rect x="430" y="278" width="320" height="30" rx="10" fill="#ffffff" opacity=".75"/>
+  <rect x="430" y="356" width="112" height="112" rx="20" fill="#ffffff" opacity=".1"/>
+  <rect x="570" y="356" width="112" height="112" rx="20" fill="#ffffff" opacity=".1"/>
+  <rect x="710" y="356" width="112" height="112" rx="20" fill="#ffffff" opacity=".1"/>
+  <text x="430" y="535" fill="#fff" font-family="Arial" font-size="44" font-weight="800">FieldTack</text>
+  <text x="430" y="575" fill="#20e3a2" font-family="Arial" font-size="23" font-weight="700">Offline workforce control</text>
+</svg>
