@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://damark-app-studio.vercel.app/sitemap.xml
