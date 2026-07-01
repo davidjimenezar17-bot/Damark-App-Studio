@@ -856,7 +856,7 @@ body {
   /* Two-column layout: copy + visual. Prevent text from overlapping visuals by isolating stacking context. */
   .feature-grid {
     display: grid;
-    grid-template-columns: minmax(300px, 420px) minmax(520px, 1fr);
+    grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
     gap: 2rem;
     align-items: start;
   }
@@ -904,19 +904,23 @@ body {
   .portfolio-cta { margin-left: 1rem; color: #07111f; font-weight: 900; }
 
   @media (max-width: 1200px) {
-    .feature-grid { grid-template-columns: minmax(280px, 360px) minmax(480px, 1fr); }
-    .feature-phone { right: -48px; }
+    .feature-grid { grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); }
+    .feature-laptop { width: min(600px, calc(100vw - 360px)); }
+    .feature-phone { right: -42px; }
   }
 
   @media (max-width: 1024px) {
-    .feature-laptop { width: 680px; }
-    .feature-phone { width: 210px; right: -64px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .feature-laptop { width: min(88vw, 640px); }
+    .feature-phone { width: 200px; right: -36px; }
   }
 
   @media (max-width: 900px) {
     .feature-grid { grid-template-columns: 1fr; }
-    .feature-phone { position: relative; right: 0; bottom: 0; transform: none; margin-top: 1rem; }
-    .feature-laptop { width: 100%; max-width: 620px; }
+    .feature-copy { padding-right: 0; }
+    .feature-visual { margin-right: 0; }
+    .feature-laptop { width: 100%; max-width: 100%; }
+    .feature-phone { position: relative; right: 0; bottom: 0; transform: none; margin-top: 1rem; width: 52vw; max-width: 240px; }
   }
 
   /* reveal animation (fade + slide) */
