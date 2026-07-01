@@ -872,10 +872,12 @@ body {
     position: relative;
     z-index: 6;
     justify-self: end;
-    overflow: visible;
+    overflow: hidden;
     margin-right: 0;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
   }
 
   .feature-title {
@@ -927,22 +929,23 @@ body {
   .portfolio-cta { margin-left: 1rem; color: #07111f; font-weight: 900; }
 
   .view-switcher {
-    display: inline-flex;
+    display: flex;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
   .view-switcher button {
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.08);
     color: #e2e8f0;
     border-radius: 999px;
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.65rem 0.95rem;
+    font-size: 0.84rem;
     font-weight: 700;
     cursor: pointer;
-    transition: background 240ms ease, color 240ms ease, transform 240ms ease;
+    transition: background 240ms ease, color 240ms ease, transform 240ms ease, box-shadow 240ms ease;
   }
 
   .view-switcher button:hover {
@@ -950,9 +953,9 @@ body {
   }
 
   .view-switcher button.is-active {
-    background: #ffffff;
+    background: #eaf5ff;
     color: #07131f;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
     transform: translateY(-1px);
   }
 

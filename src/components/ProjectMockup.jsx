@@ -285,42 +285,23 @@ export default function ProjectMockup({ project }) {
 
   return (
     <section ref={containerRef} className={`project-showcase project-showcase--${project.id} project-showcase--feature feature-premium`}>
-      <div className="feature-grid">
-        <div className="feature-copy">
-          <span className="portfolio-kicker" style={{ color: project.accent }}>{project.category}</span>
-          <h2 className="feature-title">{project.name}</h2>
-          <p className="feature-desc">{project.description}</p>
-
-          <div className="portfolio-impact">
-            <span className="portfolio-impact__label">Resultado esperado</span>
-            <p>{project.outcome}</p>
-          </div>
-
-          <div className="portfolio-tags mt-6">
-            {project.technologies.map((tech, i) => (
-              <span key={tech} className="tech-tag" style={{ animationDelay: `${i * 90}ms` }}>{tech}</span>
-            ))}
-          </div>
+      <div className="feature-visual">
+        <div className="view-switcher view-switcher--top">
+          <button type="button" className={view === 'desktop' ? 'is-active' : ''} onClick={() => setView('desktop')}>Desktop View</button>
+          <button type="button" className={view === 'mobile' ? 'is-active' : ''} onClick={() => setView('mobile')}>Mobile View</button>
         </div>
-
-        <div className="feature-visual">
-          <div className="view-switcher">
-            <button type="button" className={view === 'desktop' ? 'is-active' : ''} onClick={() => setView('desktop')}>Desktop View</button>
-            <button type="button" className={view === 'mobile' ? 'is-active' : ''} onClick={() => setView('mobile')}>Mobile View</button>
-          </div>
-          <div ref={visualRef} className="visual-wrap visual-interactive" role="img" aria-label={`${project.name} mockup`}>
-            {view === 'desktop' ? (
-              <div className="laptop-frame feature-laptop project-device-art">
-                <BrowserBar url={url.replace(/^https?:\/\//, '')} />
-                <Screen id={project.id} />
-              </div>
-            ) : (
-              <div className="phone-frame feature-phone project-device-art">
-                <div className="phone-notch" />
-                <Screen id={project.id} compact />
-              </div>
-            )}
-          </div>
+        <div ref={visualRef} className="visual-wrap visual-interactive" role="img" aria-label={`${project.name} mockup`}>
+          {view === 'desktop' ? (
+            <div className="laptop-frame feature-laptop project-device-art">
+              <BrowserBar url={url.replace(/^https?:\/\//, '')} />
+              <Screen id={project.id} />
+            </div>
+          ) : (
+            <div className="phone-frame feature-phone project-device-art">
+              <div className="phone-notch" />
+              <Screen id={project.id} compact />
+            </div>
+          )}
         </div>
       </div>
     </section>
