@@ -853,6 +853,28 @@ body {
     display: inline-block;
   }
 
+  .mockup-viewport {
+    width: 100%;
+    max-width: 560px;
+    height: 360px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f7fafc, #fff);
+    display: grid;
+    place-items: center;
+    touch-action: none;
+  }
+
+  .mockup-inner {
+    will-change: transform;
+    transition: transform 120ms linear;
+    cursor: grab;
+    display: inline-block;
+    padding: 12px;
+  }
+
+  .mockup-inner.dragging { cursor: grabbing; transition: none; }
+
   .laptop-frame {
     position: relative;
     width: min(100%, 520px);

@@ -1,5 +1,5 @@
 import { Bell, BriefcaseBusiness, CalendarDays, Cloud, Menu, Monitor, Moon, Search, ShoppingBag, SlidersHorizontal, Smartphone, User, Users, X } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const metrics = [
   ['Total Employees', '128', Users],
@@ -210,7 +210,10 @@ function Screen({ id, compact }) {
 
 export default function ProjectMockup({ project }) {
   const [view, setView] = useState('desktop')
-  const [expanded, setExpanded] = useState(false)
+  // pan/drag state for interactive viewport
+  const [pan, setPan] = useState({ x: 0, y: 0 })
+  const panRef = useRef({ x: 0, y: 0, active: false, startX: 0, startY: 0 })
+  const viewportRef = useRef(null)
   const url =
     project.id === 'fieldtack'
       ? 'https://fieldtack.vercel.app'
@@ -222,11 +225,37 @@ export default function ProjectMockup({ project }) {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'Escape') setExpanded(false)
+      if (e.key === 'Escape') {
+        setPan({ x: 0, y: 0 })
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+
+  const onPointerDown = (e) => {
+    const el = viewportRef.current
+    if (!el) return
+    panRef.current.active = true
+    panRef.current.startX = e.clientX
+    panRef.current.startY = e.clientY
+    panRef.current.x = pan.x
+    panRef.current.y = pan.y
+    el.setPointerCapture(e.pointerId)
+  }
+
+  const onPointerMove = (e) => {
+    if (!panRef.current.active) return
+    const dx = e.clientX - panRef.current.startX
+    const dy = e.clientY - panRef.current.startY
+    setPan({ x: panRef.current.x + dx, y: panRef.current.y + dy })
+  }
+
+  const onPointerUp = (e) => {
+    const el = viewportRef.current
+    if (el) el.releasePointerCapture(e.pointerId)
+    panRef.current.active = false
+  }
 
   return (
     <>
@@ -241,39 +270,33 @@ export default function ProjectMockup({ project }) {
         </div>
 
         <div className="mockup-container">
-          <button className="mockup-open" onClick={() => setExpanded(true)} aria-label={`Abrir vista interactiva de ${project.name}`}>
-            {view === 'mobile' ? (
-              <div className="phone-frame">
-                <div className="phone-notch" />
-                <Screen id={project.id} compact />
-              </div>
-            ) : (
-              <div className="laptop-frame">
-                <BrowserBar url={url.replace(/^https?:\/\//, '')} />
-                <Screen id={project.id} />
-              </div>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {expanded && (
-        <div className="mockup-modal" role="dialog" aria-modal="true">
-          <div className="mockup-modal__backdrop" onClick={() => setExpanded(false)} />
-          <div className="mockup-modal__inner">
-            <div className="mockup-modal__header">
-              <strong>{project.name} — {view === 'desktop' ? 'Desktop' : 'Móvil'}</strong>
-              <div className="mockup-modal__controls">
-                <a href={url} target="_blank" rel="noreferrer" className="mockup-modal__link">Abrir en nueva pestaña</a>
-                <button className="mockup-modal__close" onClick={() => setExpanded(false)} aria-label="Cerrar vista"><X size={18} /></button>
-              </div>
-            </div>
-            <div className="mockup-modal__body">
-              <iframe title={`preview-${project.id}`} src={url} frameBorder="0" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" />
+          <div
+            className="mockup-viewport"
+            ref={viewportRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            role="img"
+            aria-label={`Mockup interactivo de ${project.name} (arrastra para mover)`}
+          >
+            <div className={`mockup-inner ${panRef.current.active ? 'dragging' : ''}`} style={{ transform: `translate(${pan.x}px, ${pan.y}px)` }}>
+              {view === 'mobile' ? (
+                <div className="phone-frame">
+                  <div className="phone-notch" />
+                  <Screen id={project.id} compact />
+                </div>
+              ) : (
+                <div className="laptop-frame">
+                  <BrowserBar url={url.replace(/^https?:\/\//, '')} />
+                  <Screen id={project.id} />
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+      </div>
+      {/* no modal: in-page pannable mockups */}
     </>
   )
 }
