@@ -102,19 +102,27 @@ export default function Contact() {
 
     const payload = new FormData()
     payload.append('_subject', 'Nuevo prospecto DAMARK APP STUDIO')
-    payload.append('_template', 'table')
     payload.append('_captcha', 'false')
-    payload.append('Nombre completo', form.fullName)
-    payload.append('Empresa', form.company || 'No especificada')
-    payload.append('Correo electrónico', form.email)
-    payload.append('WhatsApp', form.whatsapp)
-    payload.append('País / Ciudad', form.location)
-    payload.append('Tipo de solución', form.solutionType)
-    payload.append('Proyecto', form.projectDetails)
-    payload.append('Proceso actual', form.currentProcess)
-    payload.append('Objetivo principal', form.mainObjective)
-    payload.append('Tamaño de empresa', form.companySize)
-    payload.append('Presupuesto aproximado', form.budget)
+
+    // Build a single, human-readable message so FormSubmit email is clean
+    const message = [
+      'Nuevo prospecto DAMARK APP STUDIO',
+      '' ,
+      `Nombre completo: ${form.fullName}`,
+      `Empresa: ${form.company || 'No especificada'}`,
+      `Correo electrónico: ${form.email}`,
+      `WhatsApp: ${form.whatsapp}`,
+      `País / Ciudad: ${form.location}`,
+      `Tipo de solución: ${form.solutionType}`,
+      `Presupuesto aproximado: ${form.budget}`,
+      `Tamaño de empresa: ${form.companySize}`,
+      `Objetivo principal: ${form.mainObjective}`,
+      '',
+      'Detalles del proyecto:',
+      form.projectDetails,
+    ].join('\n')
+
+    payload.append('Mensaje', message)
 
     try {
       const response = await fetch('https://formsubmit.co/ajax/damarkappstudio@gmail.com', {
