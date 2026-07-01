@@ -1,5 +1,5 @@
-import { Bell, BriefcaseBusiness, CalendarDays, Cloud, Menu, Monitor, Moon, Search, ShoppingBag, SlidersHorizontal, Smartphone, User, Users } from 'lucide-react'
-import { useState } from 'react'
+import { Bell, BriefcaseBusiness, CalendarDays, Cloud, Menu, Monitor, Moon, Search, ShoppingBag, SlidersHorizontal, Smartphone, User, Users, X } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 const metrics = [
   ['Total Employees', '128', Users],
@@ -210,37 +210,70 @@ function Screen({ id, compact }) {
 
 export default function ProjectMockup({ project }) {
   const [view, setView] = useState('desktop')
+  const [expanded, setExpanded] = useState(false)
   const url =
     project.id === 'fieldtack'
-      ? 'fieldtack.vercel.app'
+      ? 'https://fieldtack.vercel.app'
       : project.id === 'citas-facil'
-        ? 'appcitas-eta.vercel.app'
+        ? 'https://appcitas-eta.vercel.app'
         : project.id === 'tienda-online'
-          ? 'tienda-online-two-zeta.vercel.app'
-          : 'pos-taqueriabau.vercel.app'
+          ? 'https://tienda-online-two-zeta.vercel.app'
+          : 'https://pos-taqueriabau.vercel.app'
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') setExpanded(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
-    <div className={`project-showcase project-showcase--${project.id} project-showcase--${view}`}>
-      <div className="mockup-switch" aria-label={`Vista de mockup de ${project.name}`}>
-        <button className={view === 'desktop' ? 'is-active' : ''} type="button" onClick={() => setView('desktop')}>
-          <Monitor size={16} /> Desktop
-        </button>
-        <button className={view === 'mobile' ? 'is-active' : ''} type="button" onClick={() => setView('mobile')}>
-          <Smartphone size={16} /> Movil
-        </button>
+    <>
+      <div className={`project-showcase project-showcase--${project.id} project-showcase--${view}`}>
+        <div className="mockup-switch" aria-label={`Vista de mockup de ${project.name}`}>
+          <button className={view === 'desktop' ? 'is-active' : ''} type="button" onClick={() => setView('desktop')}>
+            <Monitor size={16} /> Desktop
+          </button>
+          <button className={view === 'mobile' ? 'is-active' : ''} type="button" onClick={() => setView('mobile')}>
+            <Smartphone size={16} /> Movil
+          </button>
+        </div>
+
+        <div className="mockup-container">
+          <button className="mockup-open" onClick={() => setExpanded(true)} aria-label={`Abrir vista interactiva de ${project.name}`}>
+            {view === 'mobile' ? (
+              <div className="phone-frame">
+                <div className="phone-notch" />
+                <Screen id={project.id} compact />
+              </div>
+            ) : (
+              <div className="laptop-frame">
+                <BrowserBar url={url.replace(/^https?:\/\//, '')} />
+                <Screen id={project.id} />
+              </div>
+            )}
+          </button>
+        </div>
       </div>
 
-      {view === 'mobile' ? (
-        <div className="phone-frame">
-          <div className="phone-notch" />
-          <Screen id={project.id} compact />
-        </div>
-      ) : (
-        <div className="laptop-frame">
-          <BrowserBar url={url} />
-          <Screen id={project.id} />
+      {expanded && (
+        <div className="mockup-modal" role="dialog" aria-modal="true">
+          <div className="mockup-modal__backdrop" onClick={() => setExpanded(false)} />
+          <div className="mockup-modal__inner">
+            <div className="mockup-modal__header">
+              <strong>{project.name} — {view === 'desktop' ? 'Desktop' : 'Móvil'}</strong>
+              <div className="mockup-modal__controls">
+                <a href={url} target="_blank" rel="noreferrer" className="mockup-modal__link">Abrir en nueva pestaña</a>
+                <button className="mockup-modal__close" onClick={() => setExpanded(false)} aria-label="Cerrar vista"><X size={18} /></button>
+              </div>
+            </div>
+            <div className="mockup-modal__body">
+              <iframe title={`preview-${project.id}`} src={url} frameBorder="0" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" />
+            </div>
+          </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
