@@ -101,7 +101,8 @@ export default function Contact() {
     setStatus({ type: 'sending', message: 'Enviando solicitud...' })
 
     const payload = new FormData()
-    payload.append('_subject', 'Nuevo prospecto DAMARK APP STUDIO')
+    payload.append('_subject', `Nuevo prospecto — ${form.fullName || 'Sin nombre'}`)
+    payload.append('_replyto', form.email)
     payload.append('_captcha', 'false')
 
     // Build a single, human-readable message so FormSubmit email is clean
