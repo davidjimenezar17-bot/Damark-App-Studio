@@ -209,7 +209,6 @@ function Screen({ id, compact }) {
 }
 
 export default function ProjectMockup({ project }) {
-  const [view, setView] = useState('desktop')
   const containerRef = useRef(null)
   const visualRef = useRef(null)
   const tiltRef = useRef({ x: 0, y: 0 })
@@ -221,6 +220,8 @@ export default function ProjectMockup({ project }) {
       : project.id === 'tienda-online'
         ? 'https://tienda-online-two-zeta.vercel.app'
         : 'https://pos-taqueriabau.vercel.app'
+
+  const [view, setView] = useState('desktop')
 
   useEffect(() => {
     const el = containerRef.current
@@ -302,17 +303,23 @@ export default function ProjectMockup({ project }) {
           </div>
         </div>
 
-        <div className="feature-visual" aria-hidden>
-          <div ref={visualRef} className="visual-wrap visual-interactive" role="img" aria-label={`${project.name} mockup`}> 
-            <div className="laptop-frame feature-laptop project-device-art">
-              <BrowserBar url={url.replace(/^https?:\/\//, '')} />
-              <Screen id={project.id} />
-            </div>
-
-            <div className="phone-frame feature-phone project-device-art">
-              <div className="phone-notch" />
-              <Screen id={project.id} compact />
-            </div>
+        <div className="feature-visual">
+          <div className="view-switcher">
+            <button type="button" className={view === 'desktop' ? 'is-active' : ''} onClick={() => setView('desktop')}>Desktop View</button>
+            <button type="button" className={view === 'mobile' ? 'is-active' : ''} onClick={() => setView('mobile')}>Mobile View</button>
+          </div>
+          <div ref={visualRef} className="visual-wrap visual-interactive" role="img" aria-label={`${project.name} mockup`}>
+            {view === 'desktop' ? (
+              <div className="laptop-frame feature-laptop project-device-art">
+                <BrowserBar url={url.replace(/^https?:\/\//, '')} />
+                <Screen id={project.id} />
+              </div>
+            ) : (
+              <div className="phone-frame feature-phone project-device-art">
+                <div className="phone-notch" />
+                <Screen id={project.id} compact />
+              </div>
+            )}
           </div>
         </div>
       </div>
