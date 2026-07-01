@@ -839,41 +839,30 @@ body {
     padding: clamp(1.25rem, 3vw, 2.25rem);
   }
 
-  .mockup-container {
+  .mockup-thumbs {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mockup-feature {
     display: grid;
-    place-items: center;
+    grid-template-columns: 1fr 420px;
+    gap: 1.5rem;
+    align-items: start;
     width: 100%;
   }
 
-  .mockup-open {
-    border: 0;
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    display: inline-block;
-  }
+  .mockup-copy { padding: 0; }
 
-  .mockup-viewport {
-    width: 100%;
-    max-width: 560px;
-    height: 360px;
-    overflow: hidden;
-    border-radius: 12px;
-    background: linear-gradient(180deg, #f7fafc, #fff);
-    display: grid;
-    place-items: center;
-    touch-action: none;
-  }
+  .thumb { display: flex; align-items: center; justify-content: center; }
 
-  .mockup-inner {
-    will-change: transform;
-    transition: transform 120ms linear;
-    cursor: grab;
-    display: inline-block;
-    padding: 12px;
-  }
+  .laptop-frame.scaled { width: 380px; transform: scale(0.92); transform-origin: center; }
+  .phone-frame.scaled { width: 160px; transform: scale(0.95); transform-origin: center; }
 
-  .mockup-inner.dragging { cursor: grabbing; transition: none; }
+  /* ensure scaled frames don't get visually cut */
+  .thumb .laptop-frame, .thumb .phone-frame { overflow: visible; }
 
   .laptop-frame {
     position: relative;

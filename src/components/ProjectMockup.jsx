@@ -210,93 +210,56 @@ function Screen({ id, compact }) {
 
 export default function ProjectMockup({ project }) {
   const [view, setView] = useState('desktop')
-  // pan/drag state for interactive viewport
-  const [pan, setPan] = useState({ x: 0, y: 0 })
-  const panRef = useRef({ x: 0, y: 0, active: false, startX: 0, startY: 0 })
-  const viewportRef = useRef(null)
-  const url =
-    project.id === 'fieldtack'
-      ? 'https://fieldtack.vercel.app'
-      : project.id === 'citas-facil'
-        ? 'https://appcitas-eta.vercel.app'
-        : project.id === 'tienda-online'
-          ? 'https://tienda-online-two-zeta.vercel.app'
-          : 'https://pos-taqueriabau.vercel.app'
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Escape') {
-        setPan({ x: 0, y: 0 })
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
-
-  const onPointerDown = (e) => {
-    const el = viewportRef.current
-    if (!el) return
-    panRef.current.active = true
-    panRef.current.startX = e.clientX
-    panRef.current.startY = e.clientY
-    panRef.current.x = pan.x
-    panRef.current.y = pan.y
-    el.setPointerCapture(e.pointerId)
-  }
-
-  const onPointerMove = (e) => {
-    if (!panRef.current.active) return
-    const dx = e.clientX - panRef.current.startX
-    const dy = e.clientY - panRef.current.startY
-    setPan({ x: panRef.current.x + dx, y: panRef.current.y + dy })
-  }
-
-  const onPointerUp = (e) => {
-    const el = viewportRef.current
-    if (el) el.releasePointerCapture(e.pointerId)
-    panRef.current.active = false
-  }
+  const url = project.id === 'fieldtack'
+    ? 'https://fieldtack.vercel.app'
+    : project.id === 'citas-facil'
+      ? 'https://appcitas-eta.vercel.app'
+      : project.id === 'tienda-online'
+        ? 'https://tienda-online-two-zeta.vercel.app'
+        : 'https://pos-taqueriabau.vercel.app'
 
   return (
-    <>
-      <div className={`project-showcase project-showcase--${project.id} project-showcase--${view}`}>
-        <div className="mockup-switch" aria-label={`Vista de mockup de ${project.name}`}>
-          <button className={view === 'desktop' ? 'is-active' : ''} type="button" onClick={() => setView('desktop')}>
-            <Monitor size={16} /> Desktop
-          </button>
-          <button className={view === 'mobile' ? 'is-active' : ''} type="button" onClick={() => setView('mobile')}>
-            <Smartphone size={16} /> Movil
-          </button>
+    <div className={`project-showcase project-showcase--${project.id} project-showcase--thumbs`}>
+      <div className="mockup-switch" aria-label={`Vista de mockup de ${project.name}`}>
+        <button className={view === 'desktop' ? 'is-active' : ''} type="button" onClick={() => setView('desktop')}>
+          <Monitor size={16} /> Desktop
+        </button>
+        <button className={view === 'mobile' ? 'is-active' : ''} type="button" onClick={() => setView('mobile')}>
+          <Smartphone size={16} /> Movil
+        </button>
+      </div>
+
+      <div className="mockup-feature">
+        <div className="mockup-copy">
+          <span className="portfolio-kicker" style={{ color: project.accent }}>{project.category}</span>
+          <h3>{project.name}</h3>
+          <p>{project.description}</p>
+          <div className="portfolio-impact">
+            <span className="portfolio-impact__label">Resultado esperado</span>
+            <p>{project.outcome}</p>
+          </div>
+          <div className="portfolio-tags">
+            {project.technologies.map((tech) => <span key={tech}>{tech}</span>)}
+          </div>
+          <a href={url} target="_blank" rel="noreferrer" className="portfolio-link">Ver en vivo</a>
         </div>
 
-        <div className="mockup-container">
-          <div
-            className="mockup-viewport"
-            ref={viewportRef}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onPointerCancel={onPointerUp}
-            role="img"
-            aria-label={`Mockup interactivo de ${project.name} (arrastra para mover)`}
-          >
-            <div className={`mockup-inner ${panRef.current.active ? 'dragging' : ''}`} style={{ transform: `translate(${pan.x}px, ${pan.y}px)` }}>
-              {view === 'mobile' ? (
-                <div className="phone-frame">
-                  <div className="phone-notch" />
-                  <Screen id={project.id} compact />
-                </div>
-              ) : (
-                <div className="laptop-frame">
-                  <BrowserBar url={url.replace(/^https?:\/\//, '')} />
-                  <Screen id={project.id} />
-                </div>
-              )}
+        <div className="mockup-thumbs">
+          <div className="thumb thumb-desktop" aria-hidden>
+            <div className="laptop-frame scaled">
+              <BrowserBar url={url.replace(/^https?:\/\//, '')} />
+              <Screen id={project.id} />
+            </div>
+          </div>
+          <div className="thumb thumb-mobile" aria-hidden>
+            <div className="phone-frame scaled">
+              <div className="phone-notch" />
+              <Screen id={project.id} compact />
             </div>
           </div>
         </div>
       </div>
-      {/* no modal: in-page pannable mockups */}
-    </>
+    </div>
   )
 }
+
