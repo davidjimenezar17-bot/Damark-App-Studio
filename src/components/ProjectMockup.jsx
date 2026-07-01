@@ -1,5 +1,5 @@
-import { Bell, BriefcaseBusiness, CalendarDays, Cloud, Menu, Monitor, Moon, Search, ShoppingBag, SlidersHorizontal, Smartphone, User, Users, X } from 'lucide-react'
-import { useState, useEffect, useRef } from 'react'
+import { Bell, BriefcaseBusiness, CalendarDays, Cloud, Menu, Monitor, Moon, Search, ShoppingBag, SlidersHorizontal, Smartphone, User, Users } from 'lucide-react'
+import { useState } from 'react'
 
 const metrics = [
   ['Total Employees', '128', Users],
@@ -209,102 +209,38 @@ function Screen({ id, compact }) {
 }
 
 export default function ProjectMockup({ project }) {
-  const containerRef = useRef(null)
-  const visualRef = useRef(null)
-  const tiltRef = useRef({ x: 0, y: 0 })
-  const parallaxRef = useRef(0)
-  const url = project.id === 'fieldtack'
-    ? 'https://fieldtack.vercel.app'
-    : project.id === 'citas-facil'
-      ? 'https://appcitas-eta.vercel.app'
-      : project.id === 'tienda-online'
-        ? 'https://tienda-online-two-zeta.vercel.app'
-        : 'https://pos-taqueriabau.vercel.app'
-
   const [view, setView] = useState('desktop')
-
-  useEffect(() => {
-    const el = containerRef.current
-    const visual = visualRef.current
-    if (!el || !visual) return
-
-    // reveal on enter
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) el.classList.add('reveal-in')
-      })
-    }, { threshold: 0.12 })
-    io.observe(el)
-
-    // parallax on scroll
-    function onScroll() {
-      const rect = el.getBoundingClientRect()
-      const center = rect.top + rect.height / 2
-      const screenCenter = window.innerHeight / 2
-      const diff = (screenCenter - center) / window.innerHeight
-      parallaxRef.current = diff * 28 // parallax offset
-      updateTransform()
-    }
-
-    // tilt on mousemove
-    function onMove(e) {
-      const r = visual.getBoundingClientRect()
-      const px = (e.clientX - (r.left + r.width / 2)) / (r.width / 2)
-      const py = (e.clientY - (r.top + r.height / 2)) / (r.height / 2)
-      tiltRef.current.x = py * -6
-      tiltRef.current.y = px * 8
-      updateTransform(true)
-    }
-
-    function onLeave() {
-      tiltRef.current.x = 0
-      tiltRef.current.y = 0
-      updateTransform()
-    }
-
-    function updateTransform(hover = false) {
-      const t = tiltRef.current
-      const p = parallaxRef.current
-      const scale = hover ? 1.045 : 1
-      visual.style.transform = `translateY(${p}px) perspective(1200px) rotateX(${t.x}deg) rotateY(${t.y}deg) scale(${scale})`
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    visual.addEventListener('mousemove', onMove)
-    visual.addEventListener('mouseleave', onLeave)
-
-    onScroll()
-
-    return () => {
-      io.disconnect()
-      window.removeEventListener('scroll', onScroll)
-      visual.removeEventListener('mousemove', onMove)
-      visual.removeEventListener('mouseleave', onLeave)
-    }
-  }, [])
+  const url =
+    project.id === 'fieldtack'
+      ? 'fieldtack.vercel.app'
+      : project.id === 'citas-facil'
+        ? 'appcitas-eta.vercel.app'
+        : project.id === 'tienda-online'
+          ? 'tienda-online-two-zeta.vercel.app'
+          : 'pos-taqueriabau.vercel.app'
 
   return (
-    <section ref={containerRef} className={`project-showcase project-showcase--${project.id} project-showcase--feature feature-premium`}>
-      <div className="feature-visual">
-        <div className="view-switcher view-switcher--top">
-          <button type="button" className={view === 'desktop' ? 'is-active' : ''} onClick={() => setView('desktop')}>Desktop View</button>
-          <button type="button" className={view === 'mobile' ? 'is-active' : ''} onClick={() => setView('mobile')}>Mobile View</button>
-        </div>
-        <div ref={visualRef} className="visual-wrap visual-interactive" role="img" aria-label={`${project.name} mockup`}>
-          {view === 'desktop' ? (
-            <div className="laptop-frame feature-laptop project-device-art">
-              <BrowserBar url={url.replace(/^https?:\/\//, '')} />
-              <Screen id={project.id} />
-            </div>
-          ) : (
-            <div className="phone-frame feature-phone project-device-art">
-              <div className="phone-notch" />
-              <Screen id={project.id} compact />
-            </div>
-          )}
-        </div>
+    <div className={`project-showcase project-showcase--${project.id} project-showcase--${view}`}>
+      <div className="mockup-switch" aria-label={`Vista de mockup de ${project.name}`}>
+        <button className={view === 'desktop' ? 'is-active' : ''} type="button" onClick={() => setView('desktop')}>
+          <Monitor size={16} /> Desktop
+        </button>
+        <button className={view === 'mobile' ? 'is-active' : ''} type="button" onClick={() => setView('mobile')}>
+          <Smartphone size={16} /> Movil
+        </button>
       </div>
-    </section>
+
+      {view === 'mobile' ? (
+        <div className="phone-frame">
+          <div className="phone-notch" />
+          <Screen id={project.id} compact />
+        </div>
+      ) : (
+        <div className="laptop-frame">
+          <BrowserBar url={url} />
+          <Screen id={project.id} />
+        </div>
+      )}
+    </div>
   )
 }
-

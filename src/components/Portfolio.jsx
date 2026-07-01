@@ -20,10 +20,6 @@ export default function Portfolio() {
                 <span className="portfolio-kicker" style={{ color: project.accent }}>{project.category}</span>
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                <div className="portfolio-impact">
-                  <span className="portfolio-impact__label">Resultado esperado</span>
-                  <p>{project.outcome}</p>
-                </div>
                 <div className="portfolio-tags">
                   {project.technologies.map((tech) => <span key={tech}>{tech}</span>)}
                 </div>
