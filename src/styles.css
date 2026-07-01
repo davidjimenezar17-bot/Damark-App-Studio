@@ -856,7 +856,7 @@ body {
   /* Two-column layout: copy + visual. Prevent text from overlapping visuals by isolating stacking context. */
   .feature-grid {
     display: grid;
-    grid-template-columns: minmax(300px, 420px) minmax(420px, 1fr);
+    grid-template-columns: minmax(300px, 45%) minmax(0, 55%);
     gap: 2rem;
     align-items: start;
   }
@@ -878,6 +878,7 @@ body {
     flex-direction: column;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
   }
 
   .feature-title {
@@ -971,7 +972,7 @@ body {
   }
 
   .feature-laptop {
-    width: min(560px, 100%);
+    width: 100%;
     max-width: 100%;
     height: auto;
     box-shadow: 0 80px 170px rgba(2,6,23,0.42);
