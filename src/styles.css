@@ -856,13 +856,27 @@ body {
   /* Two-column layout: copy + visual. Prevent text from overlapping visuals by isolating stacking context. */
   .feature-grid {
     display: grid;
-    grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
+    grid-template-columns: minmax(300px, 420px) minmax(420px, 1fr);
     gap: 2rem;
     align-items: start;
   }
 
-  .feature-copy { position: relative; z-index: 3; padding-right: 1rem; max-width: 420px; }
-  .feature-visual { position: relative; z-index: 6; justify-self: end; overflow: visible; margin-right: -28px; }
+  .feature-copy {
+    position: relative;
+    z-index: 3;
+    padding-right: 1rem;
+    max-width: 420px;
+  }
+
+  .feature-visual {
+    position: relative;
+    z-index: 6;
+    justify-self: end;
+    overflow: visible;
+    margin-right: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
 
   .feature-title {
     font-size: clamp(2rem, 4.5vw, 3.5rem);
@@ -875,25 +889,34 @@ body {
     max-width: 38rem;
   }
 
-  .visual-wrap { position: relative; display: flex; align-items: center; justify-content: flex-end; overflow: visible; perspective: 1400px; min-height: 580px; }
-
-  /* Increase mockup size ~40% for prominence */
-  .feature-laptop {
-    width: min(640px, calc(100vw - 500px));
+  .visual-wrap {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    perspective: 1400px;
+    min-height: 520px;
+    width: 100%;
     max-width: 100%;
+  }
+
+  /* Increase mockup size while respecting viewport */
+  .feature-laptop {
+    width: min(620px, 100%);
+    max-width: 100%;
+    height: auto;
     box-shadow: 0 80px 170px rgba(2,6,23,0.42);
     border-radius: 24px;
     position: relative;
     z-index: 2;
-    transform-origin: 70% 55%;
+    transform-origin: center center;
     transition: transform 420ms cubic-bezier(.2,.8,.2,1), box-shadow 360ms ease;
   }
 
   .feature-phone {
-    position: absolute;
-    right: -98px;
-    bottom: -14px;
-    width: 240px;
+    position: relative;
+    margin-top: -56px;
+    width: clamp(180px, 18vw, 240px);
     box-shadow: 0 50px 110px rgba(2,6,23,0.36);
     transform: rotate(-6deg);
     border-radius: 34px;
@@ -904,15 +927,15 @@ body {
   .portfolio-cta { margin-left: 1rem; color: #07111f; font-weight: 900; }
 
   @media (max-width: 1200px) {
-    .feature-grid { grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); }
-    .feature-laptop { width: min(600px, calc(100vw - 360px)); }
-    .feature-phone { right: -42px; }
+    .feature-grid { grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr); }
+    .feature-laptop { width: min(560px, 100%); }
+    .feature-phone { margin-top: -48px; width: clamp(180px, 16vw, 220px); }
   }
 
   @media (max-width: 1024px) {
     .feature-grid { grid-template-columns: 1fr; }
-    .feature-laptop { width: min(88vw, 640px); }
-    .feature-phone { width: 200px; right: -36px; }
+    .feature-laptop { width: min(100%, 620px); }
+    .feature-phone { margin-top: -32px; width: clamp(180px, 20vw, 220px); }
   }
 
   @media (max-width: 900px) {
@@ -920,7 +943,7 @@ body {
     .feature-copy { padding-right: 0; }
     .feature-visual { margin-right: 0; }
     .feature-laptop { width: 100%; max-width: 100%; }
-    .feature-phone { position: relative; right: 0; bottom: 0; transform: none; margin-top: 1rem; width: 52vw; max-width: 240px; }
+    .feature-phone { position: relative; margin-top: 1rem; transform: none; width: 52vw; max-width: 220px; }
   }
 
   /* reveal animation (fade + slide) */
