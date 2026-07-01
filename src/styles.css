@@ -856,13 +856,13 @@ body {
   /* Two-column layout: copy + visual. Prevent text from overlapping visuals by isolating stacking context. */
   .feature-grid {
     display: grid;
-    grid-template-columns: minmax(300px, 420px) minmax(620px, 1fr);
-    gap: 2.5rem;
+    grid-template-columns: minmax(300px, 420px) minmax(520px, 1fr);
+    gap: 2rem;
     align-items: start;
   }
 
   .feature-copy { position: relative; z-index: 3; padding-right: 1rem; max-width: 420px; }
-  .feature-visual { position: relative; z-index: 6; justify-self: end; overflow: visible; }
+  .feature-visual { position: relative; z-index: 6; justify-self: end; overflow: visible; margin-right: -28px; }
 
   .feature-title {
     font-size: clamp(2rem, 4.5vw, 3.5rem);
@@ -879,8 +879,8 @@ body {
 
   /* Increase mockup size ~40% for prominence */
   .feature-laptop {
-    width: 760px;
-    max-width: 88vw;
+    width: min(640px, calc(100vw - 500px));
+    max-width: 100%;
     box-shadow: 0 80px 170px rgba(2,6,23,0.42);
     border-radius: 24px;
     position: relative;
@@ -904,8 +904,8 @@ body {
   .portfolio-cta { margin-left: 1rem; color: #07111f; font-weight: 900; }
 
   @media (max-width: 1200px) {
-    .feature-grid { grid-template-columns: minmax(280px, 360px) minmax(540px, 1fr); }
-    .feature-phone { right: -52px; }
+    .feature-grid { grid-template-columns: minmax(280px, 360px) minmax(480px, 1fr); }
+    .feature-phone { right: -48px; }
   }
 
   @media (max-width: 1024px) {
