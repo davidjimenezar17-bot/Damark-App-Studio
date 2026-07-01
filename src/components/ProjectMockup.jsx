@@ -219,40 +219,36 @@ export default function ProjectMockup({ project }) {
         : 'https://pos-taqueriabau.vercel.app'
 
   return (
-    <div className={`project-showcase project-showcase--${project.id} project-showcase--thumbs`}>
-      <div className="mockup-switch" aria-label={`Vista de mockup de ${project.name}`}>
-        <button className={view === 'desktop' ? 'is-active' : ''} type="button" onClick={() => setView('desktop')}>
-          <Monitor size={16} /> Desktop
-        </button>
-        <button className={view === 'mobile' ? 'is-active' : ''} type="button" onClick={() => setView('mobile')}>
-          <Smartphone size={16} /> Movil
-        </button>
-      </div>
-
-      <div className="mockup-feature">
-        <div className="mockup-copy">
+    <div className={`project-showcase project-showcase--${project.id} project-showcase--feature`}>
+      <div className="feature-grid">
+        <div className="feature-copy">
           <span className="portfolio-kicker" style={{ color: project.accent }}>{project.category}</span>
-          <h3>{project.name}</h3>
-          <p>{project.description}</p>
+          <h2 className="feature-title">{project.name}</h2>
+          <p className="feature-desc">{project.description}</p>
+
           <div className="portfolio-impact">
             <span className="portfolio-impact__label">Resultado esperado</span>
             <p>{project.outcome}</p>
           </div>
-          <div className="portfolio-tags">
+
+          <div className="portfolio-tags mt-6">
             {project.technologies.map((tech) => <span key={tech}>{tech}</span>)}
           </div>
-          <a href={url} target="_blank" rel="noreferrer" className="portfolio-link">Ver en vivo</a>
+
+          <div className="mt-6">
+            <a href={url} target="_blank" rel="noreferrer" className="portfolio-link">Ver en vivo</a>
+            <a href="#contacto" className="portfolio-cta ml-6">Crear algo similar</a>
+          </div>
         </div>
 
-        <div className="mockup-thumbs">
-          <div className="thumb thumb-desktop" aria-hidden>
-            <div className="laptop-frame scaled">
+        <div className="feature-visual" aria-hidden>
+          <div className="visual-wrap">
+            <div className="laptop-frame feature-laptop">
               <BrowserBar url={url.replace(/^https?:\/\//, '')} />
               <Screen id={project.id} />
             </div>
-          </div>
-          <div className="thumb thumb-mobile" aria-hidden>
-            <div className="phone-frame scaled">
+
+            <div className="phone-frame feature-phone">
               <div className="phone-notch" />
               <Screen id={project.id} compact />
             </div>
