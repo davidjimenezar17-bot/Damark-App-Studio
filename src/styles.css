@@ -325,6 +325,32 @@ body {
     margin: 0;
   }
 
+  .contact-preview {
+    margin-top: 1.35rem;
+    border: 1px solid rgba(78, 166, 58, 0.16);
+    border-radius: 16px;
+    background: rgba(78, 166, 58, 0.06);
+    padding: 1rem 1.1rem;
+  }
+
+  .contact-preview__eyebrow {
+    margin: 0;
+    color: #4ea63a;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .contact-preview__list {
+    margin: 0.7rem 0 0;
+    padding-left: 1.1rem;
+    color: #334155;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+
   .quote-form {
     overflow: visible;
   }
@@ -515,6 +541,30 @@ body {
   .hero-step b {
     color: #4ea63a;
     font-size: 0.72rem;
+  }
+
+  .hero-proof-card {
+    display: grid;
+    gap: 0.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.9rem 1rem;
+    backdrop-filter: blur(16px);
+  }
+
+  .hero-proof-card strong {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+
+  .hero-proof-card span {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .studio-visual {
@@ -714,6 +764,29 @@ body {
     max-width: 34rem;
     color: rgba(255, 255, 255, 0.67);
     line-height: 1.8;
+  }
+
+  .portfolio-impact {
+    margin-top: 1.25rem;
+    border-left: 2px solid rgba(78, 166, 58, 0.45);
+    padding-left: 0.95rem;
+  }
+
+  .portfolio-impact__label {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    color: #8ccf5a;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .portfolio-impact p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 
   .portfolio-tags {

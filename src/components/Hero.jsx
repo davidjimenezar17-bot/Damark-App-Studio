@@ -2,6 +2,12 @@ import { ArrowRight, MessageCircle } from 'lucide-react'
 import BrandMark from './BrandMark.jsx'
 import TechVisual from './TechVisual.jsx'
 
+const proofPoints = [
+  { value: '24h', label: 'respuesta inicial' },
+  { value: '100%', label: 'enfoque a medida' },
+  { value: '0', label: 'procesos manuales' },
+]
+
 export default function Hero() {
   return (
     <section id="inicio" className="relative isolate overflow-hidden bg-ink pt-28 text-white sm:pt-32">
@@ -18,19 +24,28 @@ export default function Hero() {
             Software premium a la medida
           </p>
           <h1 className="mt-7 text-balance text-5xl font-black leading-[1.02] tracking-normal sm:text-6xl lg:text-[64px]">
-            Transformamos procesos en software que hace crecer empresas.
+            Software que elimina fricción, acelera operaciones y hace crecer tu negocio.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-9 text-white/72">
-            Desarrollamos aplicaciones web, móviles y sistemas empresariales diseñados específicamente para las necesidades de tu negocio.
+            Diseñamos aplicaciones web, móviles y sistemas empresariales para que tu equipo trabaje mejor, reduzca errores y responda más rápido.
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <a href="#contacto" className="hero-button hero-button--primary magnetic-button group">
-              Solicitar cotización <MessageCircle size={18} />
+              Solicitar propuesta <MessageCircle size={18} />
             </a>
             <a href="#portafolio" className="hero-button hero-button--secondary group">
-              Ver proyectos <ArrowRight className="transition group-hover:translate-x-1" size={18} />
+              Ver casos reales <ArrowRight className="transition group-hover:translate-x-1" size={18} />
             </a>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {proofPoints.map((item) => (
+              <div key={item.label} className="hero-proof-card">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
           </div>
 
           <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3">

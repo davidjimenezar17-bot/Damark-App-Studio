@@ -146,6 +146,15 @@ export default function Contact() {
             Con esta información podemos entender tu proyecto, detectar prioridades y preparar una propuesta más clara desde el primer contacto.
           </SectionHeading>
 
+          <div className="contact-preview">
+            <p className="contact-preview__eyebrow">Qué recibirás</p>
+            <ul className="contact-preview__list">
+              <li>Una propuesta clara y sin rodeos</li>
+              <li>Recomendaciones para reducir tiempos y errores</li>
+              <li>Un plan realista de implementación</li>
+            </ul>
+          </div>
+
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {contacts.map(({ label, value, href, Icon }) => (
               <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined} className="contact-card surface-premium interactive-lift">
@@ -160,7 +169,7 @@ export default function Contact() {
 
           <div className="quote-note mt-6">
             <ShieldCheck size={20} />
-            <p>La solicitud llega directo a DAMARK APP STUDIO. No guardamos los datos solamente en el navegador.</p>
+            <p>Respuesta rápida, seguimiento claro y sin complicaciones. Tu solicitud llega directo a DAMARK APP STUDIO.</p>
           </div>
         </div>
 
@@ -207,9 +216,12 @@ export default function Contact() {
             </p>
           )}
 
-          <button className="magnetic-button mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-ink px-6 py-4 text-sm font-black text-white transition hover:-translate-y-1 hover:bg-tech disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto" type="submit" disabled={isSending}>
-            {isSending ? 'Enviando...' : 'Solicitar cotización'} <Send className={isSending ? 'animate-pulse' : ''} size={18} />
-          </button>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button className="magnetic-button inline-flex w-full items-center justify-center gap-2 rounded-md bg-ink px-6 py-4 text-sm font-black text-white transition hover:-translate-y-1 hover:bg-tech disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto" type="submit" disabled={isSending}>
+              {isSending ? 'Enviando...' : 'Solicitar propuesta'} <Send className={isSending ? 'animate-pulse' : ''} size={18} />
+            </button>
+            <span className="text-sm font-semibold text-slate-500">Respondemos en menos de 24 horas.</span>
+          </div>
         </form>
       </div>
     </section>
