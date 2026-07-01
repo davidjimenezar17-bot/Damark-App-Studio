@@ -210,6 +210,10 @@ function Screen({ id, compact }) {
 
 export default function ProjectMockup({ project }) {
   const [view, setView] = useState('desktop')
+  const containerRef = useRef(null)
+  const visualRef = useRef(null)
+  const tiltRef = useRef({ x: 0, y: 0 })
+  const parallaxRef = useRef(0)
   const url = project.id === 'fieldtack'
     ? 'https://fieldtack.vercel.app'
     : project.id === 'citas-facil'
@@ -218,8 +222,68 @@ export default function ProjectMockup({ project }) {
         ? 'https://tienda-online-two-zeta.vercel.app'
         : 'https://pos-taqueriabau.vercel.app'
 
+  useEffect(() => {
+    const el = containerRef.current
+    const visual = visualRef.current
+    if (!el || !visual) return
+
+    // reveal on enter
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) el.classList.add('reveal-in')
+      })
+    }, { threshold: 0.12 })
+    io.observe(el)
+
+    // parallax on scroll
+    function onScroll() {
+      const rect = el.getBoundingClientRect()
+      const center = rect.top + rect.height / 2
+      const screenCenter = window.innerHeight / 2
+      const diff = (screenCenter - center) / window.innerHeight
+      parallaxRef.current = diff * 28 // parallax offset
+      updateTransform()
+    }
+
+    // tilt on mousemove
+    function onMove(e) {
+      const r = visual.getBoundingClientRect()
+      const px = (e.clientX - (r.left + r.width / 2)) / (r.width / 2)
+      const py = (e.clientY - (r.top + r.height / 2)) / (r.height / 2)
+      tiltRef.current.x = py * -6
+      tiltRef.current.y = px * 8
+      updateTransform(true)
+    }
+
+    function onLeave() {
+      tiltRef.current.x = 0
+      tiltRef.current.y = 0
+      updateTransform()
+    }
+
+    function updateTransform(hover = false) {
+      const t = tiltRef.current
+      const p = parallaxRef.current
+      const scale = hover ? 1.045 : 1
+      visual.style.transform = `translateY(${p}px) perspective(1200px) rotateX(${t.x}deg) rotateY(${t.y}deg) scale(${scale})`
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    visual.addEventListener('mousemove', onMove)
+    visual.addEventListener('mouseleave', onLeave)
+
+    onScroll()
+
+    return () => {
+      io.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      visual.removeEventListener('mousemove', onMove)
+      visual.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
   return (
-    <div className={`project-showcase project-showcase--${project.id} project-showcase--feature`}>
+    <section ref={containerRef} className={`project-showcase project-showcase--${project.id} project-showcase--feature feature-premium`}>
       <div className="feature-grid">
         <div className="feature-copy">
           <span className="portfolio-kicker" style={{ color: project.accent }}>{project.category}</span>
@@ -232,30 +296,27 @@ export default function ProjectMockup({ project }) {
           </div>
 
           <div className="portfolio-tags mt-6">
-            {project.technologies.map((tech) => <span key={tech}>{tech}</span>)}
-          </div>
-
-          <div className="mt-6">
-            <a href={url} target="_blank" rel="noreferrer" className="portfolio-link">Ver en vivo</a>
-            <a href="#contacto" className="portfolio-cta ml-6">Crear algo similar</a>
+            {project.technologies.map((tech, i) => (
+              <span key={tech} className="tech-tag" style={{ animationDelay: `${i * 90}ms` }}>{tech}</span>
+            ))}
           </div>
         </div>
 
         <div className="feature-visual" aria-hidden>
-          <div className="visual-wrap">
-            <div className="laptop-frame feature-laptop">
+          <div ref={visualRef} className="visual-wrap visual-interactive" role="img" aria-label={`${project.name} mockup`}> 
+            <div className="laptop-frame feature-laptop project-device-art">
               <BrowserBar url={url.replace(/^https?:\/\//, '')} />
               <Screen id={project.id} />
             </div>
 
-            <div className="phone-frame feature-phone">
+            <div className="phone-frame feature-phone project-device-art">
               <div className="phone-notch" />
               <Screen id={project.id} compact />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
